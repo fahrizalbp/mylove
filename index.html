@@ -13,8 +13,7 @@ body {
     color:white;
     text-align:center;
     overflow-x:hidden;
-    overflow-y:auto;
-    padding-bottom: env(safe-area-inset-bottom);
+    overflow-y:auto; /* penting untuk scroll */
 }
 
 .screen {
@@ -27,10 +26,8 @@ body {
 .active {
     display:flex;
     flex-direction:column;
-    justify-content:flex-start; /* FIX utama */
+    justify-content:center;
     align-items:center;
-    padding-top:40px;
-    padding-bottom:80px; /* biar tidak ketutup navbar HP */
 }
 
 img {
@@ -52,7 +49,6 @@ img {
 
 #text {
     width:90%;
-    max-width:500px;
     font-size:18px;
     line-height:1.6;
     margin-top:20px;
@@ -116,7 +112,7 @@ function start(){
     typeText();
 }
 
-// 💌 EDIT PESAN DI SINI
+// 💌 TEXT (EDIT SESUAI KAMU)
 let message = `Selamat ulang tahun, cintaku ❤️...
 
 Hari ini bukan hanya tentang bertambahnya usia...
@@ -130,7 +126,6 @@ Aku mungkin tidak sempurna...
 Tapi cintaku ke kamu, selalu utuh ❤️
 
 
-
 let i = 0;
 
 function typeText(){
@@ -138,11 +133,8 @@ function typeText(){
         let el = document.getElementById("text");
         el.innerHTML += message.charAt(i);
 
-        // AUTO SCROLL FIX (paling stabil di HP)
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: "smooth"
-        });
+        // auto scroll halus
+        el.scrollIntoView({ behavior: "smooth", block: "end" });
 
         let speed = 40;
 
@@ -155,7 +147,7 @@ function typeText(){
     }
 }
 
-// HEART ANIMATION
+// HEARTS
 function heart(){
     let h=document.createElement("div");
     h.className="heart";
