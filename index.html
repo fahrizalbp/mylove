@@ -12,23 +12,11 @@ body {
     background:linear-gradient(#ff758c,#ff7eb3);
     color:white;
     text-align:center;
-    overflow-x:hidden;
-    overflow-y:auto; /* penting untuk scroll */
+    overflow:hidden;
 }
 
-.screen {
-    display:none;
-    min-height:100vh;
-    padding:20px;
-    box-sizing:border-box;
-}
-
-.active {
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-}
+.screen {display:none;height:100vh;padding:20px;box-sizing:border-box;}
+.active {display:flex;flex-direction:column;justify-content:center;align-items:center;}
 
 img {
     width:85%;
@@ -53,7 +41,6 @@ img {
     line-height:1.6;
     margin-top:20px;
     white-space:pre-line;
-    text-align:left;
 }
 
 .cursor {
@@ -95,7 +82,7 @@ img {
 
 <!-- FINAL -->
 <div class="screen" id="final">
-    <h2>Teruntuk Istriku ❤️</h2>
+    <h2>Teruntuk Istriku</h2>
 
     <img src="foto.jpeg">
 
@@ -112,37 +99,33 @@ function start(){
     typeText();
 }
 
-// 💌 TEXT (EDIT SESUAI KAMU)
+// 💌 TEXT EMOTIONAL (EDIT DI SINI)
 let message = `Selamat ulang tahun, cintaku ❤️...
 
 Hari ini bukan hanya tentang bertambahnya usia...
 Tapi tentang betapa bersyukurnya aku memiliki kamu...
 
-Terima kasih sudah selalu ada...
-Menjadi tempatku pulang...
-Menjadi alasan aku tersenyum setiap hari...
-
 Aku mungkin tidak sempurna...
 Tapi cintaku ke kamu, selalu utuh ❤️
 
+Hari ini...
+Besok...
+Dan selamanya...`;
 
 let i = 0;
 
 function typeText(){
     if(i < message.length){
-        let el = document.getElementById("text");
-        el.innerHTML += message.charAt(i);
-
-        // auto scroll halus
-        el.scrollIntoView({ behavior: "smooth", block: "end" });
+        document.getElementById("text").innerHTML += message.charAt(i);
+        i++;
 
         let speed = 40;
 
-        if(message.charAt(i) === "." || message.charAt(i) === "\n"){
-            speed = 250;
+        // kasih jeda di titik biar lebih natural
+        if(message.charAt(i-1) === "." || message.charAt(i-1) === "\n"){
+            speed = 300;
         }
 
-        i++;
         setTimeout(typeText, speed);
     }
 }
@@ -160,4 +143,4 @@ setInterval(heart,300);
 </script>
 
 </body>
-</html>
+</html>, dari script ini untuk bisa auto scroll saat text bisa di lihat
