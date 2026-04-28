@@ -8,25 +8,24 @@
 <style>
 body {
     margin:0;
-    font-family:sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background:linear-gradient(#ff758c,#ff7eb3);
     color:white;
+    overflow-x:hidden;
+}
+
+/* container utama */
+.container {
+    min-height:100vh;
+    padding:30px 20px 100px;
+    box-sizing:border-box;
     text-align:center;
-    overflow:hidden;
 }
 
-.screen {display:none;height:100vh;padding:20px;box-sizing:border-box;}
-.active {display:flex;flex-direction:column;justify-content:center;align-items:center;}
-
-img {
-    width:85%;
-    max-width:320px;
-    border-radius:20px;
-    margin-top:15px;
-}
-
+/* gift */
 .gift {
-    font-size:80px;
+    font-size:70px;
+    margin-top:40vh;
     animation:bounce 1s infinite;
     cursor:pointer;
 }
@@ -35,19 +34,34 @@ img {
     50%{transform:translateY(-10px);}
 }
 
+/* konten */
+.content {
+    display:none;
+    max-width:500px;
+    margin:auto;
+}
+
+img {
+    width:100%;
+    border-radius:20px;
+    margin-top:15px;
+}
+
+/* text */
 #text {
-    width:90%;
-    font-size:18px;
-    line-height:1.6;
+    font-size:17px;
+    line-height:1.7;
     margin-top:20px;
+    text-align:left;
     white-space:pre-line;
 }
 
+/* cursor */
 .cursor {
     display:inline-block;
     width:2px;
     background:white;
-    margin-left:5px;
+    margin-left:3px;
     animation:blink 1s infinite;
 }
 
@@ -55,15 +69,18 @@ img {
     50%{opacity:0;}
 }
 
+/* hearts */
 .heart {
-    position:absolute;
+    position:fixed;
+    bottom:-10px;
     animation:float 5s linear infinite;
 }
 
 @keyframes float {
-    0%{transform:translateY(100vh);opacity:0;}
-    50%{opacity:1;}
-    100%{transform:translateY(-10vh);opacity:0;}
+    to {
+        transform:translateY(-110vh);
+        opacity:0;
+    }
 }
 </style>
 </head>
@@ -74,19 +91,21 @@ img {
 <source src="lagu.mp3">
 </audio>
 
-<!-- GIFT -->
-<div class="screen active" id="gift">
-    <h2>Ada sesuatu untuk kamu 🎁</h2>
-    <div class="gift" onclick="start()">🎁</div>
-</div>
+<div class="container">
 
-<!-- FINAL -->
-<div class="screen" id="final">
-    <h2>Teruntuk Istriku</h2>
+    <!-- GIFT -->
+    <div id="gift">
+        <h2>Ada sesuatu untuk kamu 🎁</h2>
+        <div class="gift" onclick="start()">🎁</div>
+    </div>
 
-    <img src="foto.jpeg">
+    <!-- CONTENT -->
+    <div class="content" id="content">
+        <h2>Teruntuk Istriku ❤️</h2>
+        <img src="foto.jpeg">
+        <div id="text"></div><span class="cursor"></span>
+    </div>
 
-    <div id="text"></div><span class="cursor"></span>
 </div>
 
 <script>
@@ -94,16 +113,20 @@ let music = document.getElementById("music");
 
 function start(){
     music.play();
-    document.getElementById("gift").classList.remove("active");
-    document.getElementById("final").classList.add("active");
+    document.getElementById("gift").style.display="none";
+    document.getElementById("content").style.display="block";
     typeText();
 }
 
-// 💌 TEXT EMOTIONAL (EDIT DI SINI)
+// 💌 EDIT PESAN DI SINI
 let message = `Selamat ulang tahun, cintaku ❤️...
 
 Hari ini bukan hanya tentang bertambahnya usia...
 Tapi tentang betapa bersyukurnya aku memiliki kamu...
+
+Terima kasih sudah selalu ada...
+Menjadi tempatku pulang...
+Menjadi alasan aku tersenyum setiap hari...
 
 Aku mungkin tidak sempurna...
 Tapi cintaku ke kamu, selalu utuh ❤️
@@ -116,30 +139,34 @@ let i = 0;
 
 function typeText(){
     if(i < message.length){
-        document.getElementById("text").innerHTML += message.charAt(i);
-        i++;
+        let el = document.getElementById("text");
+        el.innerHTML += message.charAt(i);
 
-        let speed = 40;
+        // auto scroll natural (tidak lompat)
+        window.scrollTo(0, document.body.scrollHeight);
 
-        // kasih jeda di titik biar lebih natural
-        if(message.charAt(i-1) === "." || message.charAt(i-1) === "\n"){
-            speed = 300;
+        let speed = 35;
+
+        if(message.charAt(i) === "." || message.charAt(i) === "\n"){
+            speed = 200;
         }
 
+        i++;
         setTimeout(typeText, speed);
     }
 }
 
-// HEARTS
+// hearts
 function heart(){
     let h=document.createElement("div");
     h.className="heart";
     h.innerHTML="❤️";
     h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(Math.random()*10+15)+"px";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),5000);
 }
-setInterval(heart,300);
+setInterval(heart,400);
 </script>
 
 </body>
