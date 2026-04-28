@@ -13,7 +13,8 @@ body {
     color:white;
     text-align:center;
     overflow-x:hidden;
-    overflow-y:auto; /* penting untuk scroll */
+    overflow-y:auto;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .screen {
@@ -26,8 +27,10 @@ body {
 .active {
     display:flex;
     flex-direction:column;
-    justify-content:center;
+    justify-content:flex-start; /* FIX utama */
     align-items:center;
+    padding-top:40px;
+    padding-bottom:80px; /* biar tidak ketutup navbar HP */
 }
 
 img {
@@ -49,6 +52,7 @@ img {
 
 #text {
     width:90%;
+    max-width:500px;
     font-size:18px;
     line-height:1.6;
     margin-top:20px;
@@ -95,7 +99,7 @@ img {
 
 <!-- FINAL -->
 <div class="screen" id="final">
-    <h2>Teruntuk Istriku ❤️</h2>
+    <h2>Teruntuk Istriku 😘</h2>
 
     <img src="foto.jpeg">
 
@@ -112,7 +116,7 @@ function start(){
     typeText();
 }
 
-// 💌 TEXT (EDIT SESUAI KAMU)
+// 💌 EDIT PESAN DI SINI
 let message = `Selamat ulang tahun, cintaku ❤️...
 
 Hari ini bukan hanya tentang bertambahnya usia...
@@ -127,7 +131,7 @@ Tapi cintaku ke kamu, selalu utuh ❤️
 
 Hari ini...
 Besok...
-Dan selamanya...`;
+Dan selamanya 😘😘😘`;
 
 let i = 0;
 
@@ -136,8 +140,11 @@ function typeText(){
         let el = document.getElementById("text");
         el.innerHTML += message.charAt(i);
 
-        // auto scroll halus
-        el.scrollIntoView({ behavior: "smooth", block: "end" });
+        // AUTO SCROLL FIX (paling stabil di HP)
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth"
+        });
 
         let speed = 40;
 
@@ -150,7 +157,7 @@ function typeText(){
     }
 }
 
-// HEARTS
+// HEART ANIMATION
 function heart(){
     let h=document.createElement("div");
     h.className="heart";
