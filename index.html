@@ -15,26 +15,45 @@ body {
     overflow:hidden;
 }
 
-.screen {display:none;height:100vh;padding:20px;box-sizing:border-box;}
-.active {display:flex;flex-direction:column;justify-content:center;align-items:center;}
+/* SCREEN */
+.screen {
+    display:none;
+    height:100vh;
+    padding:20px;
+    box-sizing:border-box;
+    position:relative;
+    z-index:2;
+}
 
+.active {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+/* GAMBAR */
 img {
     width:85%;
     max-width:320px;
     border-radius:20px;
     margin-top:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
+/* KADO */
 .gift {
     font-size:80px;
     animation:bounce 1s infinite;
     cursor:pointer;
+    user-select:none;
 }
 
 @keyframes bounce {
-    50%{transform:translateY(-10px);}
+    50%{transform:translateY(-12px);}
 }
 
+/* TEXT */
 #text {
     width:90%;
     font-size:18px;
@@ -46,6 +65,7 @@ img {
 .cursor {
     display:inline-block;
     width:2px;
+    height:20px;
     background:white;
     margin-left:5px;
     animation:blink 1s infinite;
@@ -55,9 +75,11 @@ img {
     50%{opacity:0;}
 }
 
+/* HEART */
 .heart {
     position:absolute;
     animation:float 5s linear infinite;
+    font-size:20px;
 }
 
 @keyframes float {
@@ -65,26 +87,37 @@ img {
     50%{opacity:1;}
     100%{transform:translateY(-10vh);opacity:0;}
 }
+
+/* FADE ANIMATION */
+.fade {
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform:scale(0.9);}
+    to {opacity:1; transform:scale(1);}
+}
 </style>
 </head>
 
 <body>
 
 <audio id="music" loop>
-<source src="lagu.mp3">
+    <source src="lagu.mp3" type="audio/mpeg">
 </audio>
 
-<!-- GIFT -->
+<!-- GIFT SCREEN -->
 <div class="screen active" id="gift">
     <h2>Ada sesuatu untuk kamu 🎁</h2>
     <div class="gift" onclick="start()">🎁</div>
+    <p>(Klik kadonya ya ❤️)</p>
 </div>
 
-<!-- FINAL -->
+<!-- FINAL SCREEN -->
 <div class="screen" id="final">
-    <h2>Istriku</h2>
+    <h2>Istriku ❤️</h2>
 
-    <img src="foto.jpeg">
+    <img src="foto.jpeg" class="fade">
 
     <div id="text"></div><span class="cursor"></span>
 </div>
@@ -93,13 +126,18 @@ img {
 let music = document.getElementById("music");
 
 function start(){
-    music.play();
+    // Play music (safe for browser)
+    music.play().catch(()=>{});
+
+    // pindah screen
     document.getElementById("gift").classList.remove("active");
-    document.getElementById("final").classList.add("active");
+    let final = document.getElementById("final");
+    final.classList.add("active","fade");
+
     typeText();
 }
 
-// 💌 TEXT EMOTIONAL (EDIT DI SINI)
+// 💌 EDIT PESAN DI SINI
 let message = `Selamat ulang tahun, cintaku...
 
 Hari ini bukan hanya tentang bertambahnya usia...
@@ -107,7 +145,10 @@ Tapi tentang betapa bersyukurnya aku memiliki kamu...
 
 Terima kasih sudah hadir dalam hidupku...
 Menjadi tempatku pulang...
-Menjadi alasanku tersenyum setiap hari ❤️❤️❤️
+Menjadi alasanku tersenyum setiap hari ❤️
+
+Aku sayang kamu... selamanya ❤️❤️❤️`;
+
 
 
 let i = 0;
@@ -119,7 +160,7 @@ function typeText(){
 
         let speed = 40;
 
-        // kasih jeda di titik biar lebih natural
+        // jeda natural
         if(message.charAt(i-1) === "." || message.charAt(i-1) === "\n"){
             speed = 300;
         }
@@ -128,15 +169,19 @@ function typeText(){
     }
 }
 
-// HEARTS
+// ❤️ ANIMASI LOVE
 function heart(){
-    let h=document.createElement("div");
-    h.className="heart";
-    h.innerHTML="❤️";
-    h.style.left=Math.random()*100+"vw";
+    let h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤️";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.fontSize = (Math.random()*20 + 15) + "px";
+
     document.body.appendChild(h);
+
     setTimeout(()=>h.remove(),5000);
 }
+
 setInterval(heart,300);
 </script>
 
